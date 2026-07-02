@@ -1,0 +1,59 @@
+name: Build ROM
+
+on:
+  push:
+    branches: [ feature/trainer-overhaul, feature/max-dvs ]
+  workflow_dispatch:
+
+env:
+  rgbds_version: v1.0.1
+  # actions/upload-artifact@v4 still ships on Node 20, which GitHub Actions
+  # has deprecated; there's no newer major yet (see actions/upload-artifact
+  # issue #780), so force Node 24 on the runner as GitHub's own interim fix
+  # instead of pinning to a version that doesn't exist.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-rom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Checkout rgbds
+        uses: actions/checkout@v7
+        with:
+          path: rgbds
+          ref: ${{ env.rgbds_version }}
+          repository: gbdev/rgbds
+
+      - name: Install rgbds
+        working-directory: rgbds
+        run: |
+          sudo apt-get update
+          sudo apt-get install -yq bison libpng-dev pkg-config
+          sudo make -j$(nproc) install
+
+      - name: Remove rgbds
+        run: |
+          rm -rf rgbds
+
+      - name: Make
+        run: |
+          make -j$(nproc)
+
+      - name: Compute artifact name
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          echo "artifact_name=pokecrystal-${REF_NAME//\//-}-${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Upload ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.artifact_name }}
+          path: |
+            pokecrystal.gbc
+            pokecrystal.sym
+            pokecrystal.map
+          if-no-files-found: error
