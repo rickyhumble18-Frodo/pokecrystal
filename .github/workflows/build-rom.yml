@@ -2,7 +2,7 @@ name: Build ROM
 
 on:
   push:
-    branches: [ feature/trainer-overhaul, feature/max-dvs ]
+    branches: [ "feature/**" ]
   workflow_dispatch:
 
 env:
