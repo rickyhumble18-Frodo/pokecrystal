@@ -7,6 +7,11 @@ on:
 
 env:
   rgbds_version: v1.0.1
+  # actions/upload-artifact@v4 still ships on Node 20, which GitHub Actions
+  # has deprecated; there's no newer major yet (see actions/upload-artifact
+  # issue #780), so force Node 24 on the runner as GitHub's own interim fix
+  # instead of pinning to a version that doesn't exist.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build-rom:
@@ -37,10 +42,16 @@ jobs:
         run: |
           make -j$(nproc)
 
+      - name: Compute artifact name
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          echo "artifact_name=pokecrystal-${REF_NAME//\//-}-${{ github.sha }}" >> "$GITHUB_ENV"
+
       - name: Upload ROM
         uses: actions/upload-artifact@v4
         with:
-          name: pokecrystal-${{ github.ref_name }}-${{ github.sha }}
+          name: ${{ env.artifact_name }}
           path: |
             pokecrystal.gbc
             pokecrystal.sym
