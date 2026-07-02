@@ -202,6 +202,19 @@ endr
 	and a
 	jr nz, .copywildmonDVs
 
+	; GivePoke (starters/gifts) sets wForceMaxDVsOnGivenMon so this mon gets
+	; max DVs instead of random ones; GiveEgg leaves it clear, so eggs keep
+	; vanilla random DV inheritance (see difficulty design doc, Section 5).
+	ld a, [wForceMaxDVsOnGivenMon]
+	and a
+	jr z, .rollrandomDVs
+	xor a
+	ld [wForceMaxDVsOnGivenMon], a
+	ld b, $ff
+	ld c, $ff
+	jr .initializeDVs
+
+.rollrandomDVs
 	call Random
 	ld b, a
 	call Random
@@ -1619,6 +1632,9 @@ CalcMonStatC:
 GivePoke::
 	push de
 	push bc
+	; Starters and gifts get max DVs (see difficulty design doc, Section 5).
+	ld a, 1
+	ld [wForceMaxDVsOnGivenMon], a
 	xor a ; PARTYMON
 	ld [wMonType], a
 	call TryAddMonToParty
@@ -1651,6 +1667,14 @@ GivePoke::
 	ld a, [wCurPartySpecies]
 	ld [wTempEnemyMonSpecies], a
 	callfar LoadEnemyMon
+	; Force max DVs here too: LoadEnemyMon takes the trainer-DV path (not the
+	; wild-mon path we already patched) when called outside of a battle like
+	; this. See difficulty design doc, Section 5.
+	xor a
+	ld [wForceMaxDVsOnGivenMon], a
+	ld a, $ff
+	ld [wEnemyMonDVs], a
+	ld [wEnemyMonDVs + 1], a
 	call SendMonIntoBox
 	jp nc, .FailedToGiveMon
 	ld a, BOXMON

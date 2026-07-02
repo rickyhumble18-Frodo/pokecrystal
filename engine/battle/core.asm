@@ -6101,12 +6101,14 @@ LoadEnemyMon:
 
 ; If it hasn't, we need to initialize the DVs
 ; (HP is initialized at the end of the battle)
+; Player-obtained Pokemon get max DVs (see difficulty design doc, Section 5);
+; roaming legendaries are wild-caught, so they're in scope too.
 	call GetRoamMonDVs
 	inc hl
-	call BattleRandom
+	ld a, $ff
 	ld [hld], a
 	ld c, a
-	call BattleRandom
+	ld a, $ff
 	ld [hl], a
 	ld b, a
 ; We're done with DVs
@@ -6117,6 +6119,10 @@ LoadEnemyMon:
 
 ; Forced shiny battle type
 ; Used by Red Gyarados at Lake of Rage
+; Deliberately NOT forced to max DVs: its shininess is derived from this exact
+; DV pattern by CheckShininess (engine/gfx/color.asm), and max DVs ($ff/$ff)
+; do not satisfy that check (it requires DV 10, not 15, on three of four
+; stats) -- forcing max DVs here would make it render as a normal Gyarados.
 	cp BATTLETYPE_FORCESHINY
 	jr nz, .GenerateDVs
 
@@ -6125,11 +6131,9 @@ LoadEnemyMon:
 	jr .UpdateDVs
 
 .GenerateDVs:
-; Generate new random DVs
-	call BattleRandom
-	ld b, a
-	call BattleRandom
-	ld c, a
+; Player-obtained Pokemon get max DVs (see difficulty design doc, Section 5).
+	ld b, $ff
+	ld c, $ff
 
 .UpdateDVs:
 ; Input DVs in register bc

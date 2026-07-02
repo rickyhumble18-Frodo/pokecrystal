@@ -1505,7 +1505,11 @@ wCurSpecies:: db
 
 wNamedObjectType:: db
 
-	ds 1
+; Set by GivePoke (starters/gifts) before TryAddMonToParty so
+; GeneratePartyMonStats forces max DVs instead of rolling random ones.
+; Left clear for GiveEgg (see difficulty design doc, Section 5: eggs keep
+; vanilla DV inheritance).
+wForceMaxDVsOnGivenMon:: db
 
 wJumptableIndex::
 wBattleTowerBattleEnded::
