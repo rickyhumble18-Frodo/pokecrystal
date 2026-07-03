@@ -85,19 +85,19 @@ FishGroups:
 	db 100 percent,     POLIWAG,    40
 
 .Dratini_Old:
-	db  70 percent + 1, MAGIKARP,   10
-	db  85 percent + 1, MAGIKARP,   10
-	db 100 percent,     MAGIKARP,   10
+	db  70 percent + 1, MAGIKARP,   22
+	db  85 percent + 1, MAGIKARP,   22
+	db 100 percent,     MAGIKARP,   22
 .Dratini_Good:
-	db  35 percent,     MAGIKARP,   20
-	db  70 percent,     MAGIKARP,   20
-	db  90 percent + 1, MAGIKARP,   20
+	db  35 percent,     MAGIKARP,   39
+	db  70 percent,     MAGIKARP,   39
+	db  90 percent + 1, MAGIKARP,   39
 	db 100 percent,     time_group 8
 .Dratini_Super:
-	db  40 percent,     MAGIKARP,   40
+	db  40 percent,     MAGIKARP,   42
 	db  70 percent,     time_group 9
-	db  90 percent + 1, MAGIKARP,   40
-	db 100 percent,     DRAGONAIR,  40
+	db  90 percent + 1, MAGIKARP,   42
+	db 100 percent,     DRAGONAIR,  42
 
 .Qwilfish_Swarm_Old:
 	db  70 percent + 1, MAGIKARP,   5
@@ -130,13 +130,13 @@ FishGroups:
 	db 100 percent,     REMORAID,   40
 
 .Gyarados_Old:
-	db  70 percent + 1, MAGIKARP,   10
-	db  85 percent + 1, MAGIKARP,   10
-	db 100 percent,     MAGIKARP,   10
+	db  70 percent + 1, MAGIKARP,   18
+	db  85 percent + 1, MAGIKARP,   18
+	db 100 percent,     MAGIKARP,   18
 .Gyarados_Good:
-	db  35 percent,     MAGIKARP,   20
-	db  70 percent,     MAGIKARP,   20
-	db  90 percent + 1, MAGIKARP,   20
+	db  35 percent,     MAGIKARP,   35
+	db  70 percent,     MAGIKARP,   35
+	db  90 percent + 1, MAGIKARP,   35
 	db 100 percent,     time_group 14
 .Gyarados_Super:
 	db  40 percent,     MAGIKARP,   40
@@ -145,34 +145,34 @@ FishGroups:
 	db 100 percent,     MAGIKARP,   40
 
 .Dratini_2_Old:
-	db  70 percent + 1, MAGIKARP,   10
-	db  85 percent + 1, MAGIKARP,   10
-	db 100 percent,     MAGIKARP,   10
+	db  70 percent + 1, MAGIKARP,   41
+	db  85 percent + 1, MAGIKARP,   41
+	db 100 percent,     MAGIKARP,   41
 .Dratini_2_Good:
-	db  35 percent,     MAGIKARP,   10
-	db  70 percent,     MAGIKARP,   10
-	db  90 percent + 1, MAGIKARP,   10
+	db  35 percent,     MAGIKARP,   41
+	db  70 percent,     MAGIKARP,   41
+	db  90 percent + 1, MAGIKARP,   41
 	db 100 percent,     time_group 16
 .Dratini_2_Super:
-	db  40 percent,     MAGIKARP,   10
+	db  40 percent,     MAGIKARP,   41
 	db  70 percent,     time_group 17
-	db  90 percent + 1, MAGIKARP,   10
-	db 100 percent,     DRAGONAIR,  10
+	db  90 percent + 1, MAGIKARP,   41
+	db 100 percent,     DRAGONAIR,  41
 
 .WhirlIslands_Old:
-	db  70 percent + 1, MAGIKARP,   10
-	db  85 percent + 1, MAGIKARP,   10
-	db 100 percent,     KRABBY,     10
+	db  70 percent + 1, MAGIKARP,   16
+	db  85 percent + 1, MAGIKARP,   16
+	db 100 percent,     KRABBY,     16
 .WhirlIslands_Good:
-	db  35 percent,     MAGIKARP,   20
-	db  70 percent,     KRABBY,     20
-	db  90 percent + 1, KRABBY,     20
+	db  35 percent,     MAGIKARP,   30
+	db  70 percent,     KRABBY,     30
+	db  90 percent + 1, KRABBY,     30
 	db 100 percent,     time_group 18
 .WhirlIslands_Super:
-	db  40 percent,     KRABBY,     40
+	db  40 percent,     KRABBY,     33
 	db  70 percent,     time_group 19
-	db  90 percent + 1, KINGLER,    40
-	db 100 percent,     SEADRA,     40
+	db  90 percent + 1, KINGLER,    33
+	db 100 percent,     SEADRA,     33
 
 .Qwilfish_NoSwarm_Old:
 .Qwilfish_Old:
@@ -217,17 +217,17 @@ TimeFishGroups:
 	db GOLDEEN,    40,  GOLDEEN,    40 ; 5
 	db POLIWAG,    20,  POLIWAG,    20 ; 6
 	db POLIWAG,    40,  POLIWAG,    40 ; 7
-	db DRATINI,    20,  DRATINI,    20 ; 8
-	db DRATINI,    40,  DRATINI,    40 ; 9
+	db DRATINI,    39,  DRATINI,    39 ; 8
+	db DRATINI,    42,  DRATINI,    42 ; 9
 	db QWILFISH,   20,  QWILFISH,   20 ; 10
 	db QWILFISH,   40,  QWILFISH,   40 ; 11
 	db REMORAID,   20,  REMORAID,   20 ; 12
 	db REMORAID,   40,  REMORAID,   40 ; 13
-	db GYARADOS,   20,  GYARADOS,   20 ; 14
+	db GYARADOS,   35,  GYARADOS,   35 ; 14
 	db GYARADOS,   40,  GYARADOS,   40 ; 15
-	db DRATINI,    10,  DRATINI,    10 ; 16
-	db DRATINI,    10,  DRATINI,    10 ; 17
-	db HORSEA,     20,  HORSEA,     20 ; 18
-	db HORSEA,     40,  HORSEA,     40 ; 19
+	db DRATINI,    41,  DRATINI,    41 ; 16
+	db DRATINI,    41,  DRATINI,    41 ; 17
+	db HORSEA,     30,  HORSEA,     30 ; 18
+	db HORSEA,     33,  HORSEA,     33 ; 19
 	db TENTACOOL,  20,  TENTACOOL,  20 ; 20
 	db TENTACOOL,  40,  TENTACOOL,  40 ; 21
