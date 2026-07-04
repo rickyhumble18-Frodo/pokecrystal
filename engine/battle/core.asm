@@ -7472,8 +7472,11 @@ AnimateExpBar:
 	ldh a, [hProduct + 2]
 	ld [wExperienceGained + 1], a
 	push af
-	xor a
+; A Lucky Egg's 10x boost can leave a nonzero byte here (see BoostExpLuckyEgg),
+; so preserve and add it in like the other two bytes instead of assuming 0.
+	ldh a, [hProduct + 1]
 	ld [wExperienceGained], a
+	push af
 	xor a ; PARTYMON
 	ld [wMonType], a
 	predef CopyMonToTempMon
@@ -7491,9 +7494,10 @@ AnimateExpBar:
 	ld a, [wExperienceGained + 1]
 	adc [hl]
 	ld [hld], a
+	ld a, [wExperienceGained]
+	adc [hl]
+	ld [hl], a
 	jr nc, .NoOverflow
-	inc [hl]
-	jr nz, .NoOverflow
 	ld a, $ff
 	ld [hli], a
 	ld [hli], a
@@ -7576,6 +7580,8 @@ AnimateExpBar:
 	call .PlayExpBarSound
 	call .LoopBarAnimation
 	call TerminateExpBarSound
+	pop af
+	ldh [hProduct + 1], a
 	pop af
 	ldh [hProduct + 2], a
 	pop af

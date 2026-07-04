@@ -709,7 +709,10 @@ BattleCommand_CheckObedience:
 	add b
 	ld b, a
 
-; No overflow (this should never happen)
+; This 8-bit add can overflow now that MAX_LEVEL is 150 (e.g. RisingBadge's
+; c = MAX_LEVEL + 1 = 151, plus any d >= 105), but it's harmless: whenever
+; c > MAX_LEVEL, .checklevel always returns before b is read again, since
+; d can never exceed MAX_LEVEL. Clamp to $ff defensively regardless.
 	jr nc, .checklevel
 	ld b, $ff
 
