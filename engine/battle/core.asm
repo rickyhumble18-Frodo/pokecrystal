@@ -7114,20 +7114,24 @@ GiveExperiencePoints:
 	call GetPartyParamLocation
 	ld a, [hl]
 	cp LUCKY_EGG
-	call z, BoostExp
-	ldh a, [hQuotient + 3]
-	ld [wStringBuffer2 + 1], a
+	call z, BoostExpLuckyEgg
+	ldh a, [hQuotient + 1]
+	ld [wStringBuffer2 + 3], a
 	ldh a, [hQuotient + 2]
 	ld [wStringBuffer2], a
+	ldh a, [hQuotient + 3]
+	ld [wStringBuffer2 + 1], a
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
 	call GetNickname
 	ld hl, Text_MonGainedExpPoint
 	call BattleTextbox
-	ld a, [wStringBuffer2 + 1]
-	ldh [hQuotient + 3], a
+	ld a, [wStringBuffer2 + 3]
+	ldh [hQuotient + 1], a
 	ld a, [wStringBuffer2]
 	ldh [hQuotient + 2], a
+	ld a, [wStringBuffer2 + 1]
+	ldh [hQuotient + 3], a
 	pop bc
 	call AnimateExpBar
 	push bc
@@ -7142,11 +7146,12 @@ GiveExperiencePoints:
 	ld d, [hl]
 	ldh a, [hQuotient + 2]
 	adc d
+	ld [hld], a
+	ld d, [hl]
+	ldh a, [hQuotient + 1]
+	adc d
 	ld [hl], a
 	jr nc, .no_exp_overflow
-	dec hl
-	inc [hl]
-	jr nz, .no_exp_overflow
 	ld a, $ff
 	ld [hli], a
 	ld [hli], a
@@ -7417,6 +7422,18 @@ BoostExp:
 	ldh [hProduct + 2], a
 	pop bc
 	ret
+
+BoostExpLuckyEgg:
+; Multiply experience by 10x for the Lucky Egg.
+; BoostExp's 1.5x fits in the 16-bit hProduct+2/+3 window it operates on,
+; but a 10x boost on a high base experience Pokemon at a high level can
+; need a 3rd byte. hMultiplicand aliases hProduct+1/+2/+3 (see hram.asm),
+; and already holds the current exp value there, so route through the
+; general-purpose Multiply routine to widen into hProduct+1 instead of
+; letting a 16-bit-only shift-add wrap.
+	ld a, 10
+	ldh [hMultiplier], a
+	jp Multiply
 
 Text_MonGainedExpPoint:
 	text_far Text_Gained
