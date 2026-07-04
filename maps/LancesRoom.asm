@@ -57,7 +57,13 @@ LancesRoomLanceScript:
 	closetext
 	winlosstext LanceBattleWinText, 0
 	setlasttalked LANCESROOM_LANCE
+	checkevent EVENT_BEAT_RED
+	iftrue .Rematch
 	loadtrainer CHAMPION, LANCE
+	sjump .Battle
+.Rematch:
+	loadtrainer CHAMPION, LANCE2
+.Battle:
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
